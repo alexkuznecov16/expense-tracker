@@ -12,6 +12,7 @@ const ExpensesPage = () => {
 	};
 
 	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		loadExpenses();
 	}, []);
 
@@ -23,7 +24,7 @@ const ExpensesPage = () => {
 			<div style={{display: 'flex', flexWrap: 'wrap'}}>
 				<ExpenseForm onExpenseCreated={loadExpenses} />
 
-				<ExpenseList expenses={expenses} />
+				<ExpenseList onExpenseDeleted={loadExpenses} expenses={expenses} />
 			</div>
 		</div>
 	);

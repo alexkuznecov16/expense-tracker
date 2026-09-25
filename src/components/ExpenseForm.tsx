@@ -1,7 +1,8 @@
 import {useState} from 'react';
 import {createExpense} from '../services/expenseService';
+import type {ExpenseFormProps} from '../types/expense';
 
-const ExpenseForm = ({onExpenseCreated}: {onExpenseCreated: () => Promise<void>}) => {
+const ExpenseForm = ({onExpenseCreated}: ExpenseFormProps) => {
 	const [input, setInput] = useState({
 		title: '',
 		amount: 0,

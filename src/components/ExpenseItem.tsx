@@ -1,6 +1,6 @@
-import type {ExpenseCardProps} from '../types/expense';
+import type {ExpenseItemProps} from '../types/expense';
 
-const ExpenseItem = ({expense}: ExpenseCardProps) => {
+const ExpenseItem = ({expense}: ExpenseItemProps) => {
 	return (
 		<>
 			<p>

@@ -9,8 +9,18 @@ export type Expense = {
 
 export type ExpenseListProps = {
 	expenses: Expense[];
+	onExpenseDeleted: () => Promise<void>;
 };
 
 export type ExpenseCardProps = {
 	expense: Expense;
+	onExpenseDeleted: () => Promise<void>;
+};
+
+export type ExpenseItemProps = {
+	expense: Expense;
+};
+
+export type ExpenseFormProps = {
+	onExpenseCreated: () => Promise<void>;
 };
