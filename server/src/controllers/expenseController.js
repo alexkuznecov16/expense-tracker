@@ -4,16 +4,16 @@ const pool = require('../config/database');
 const getExpenses = async (req, res) => {
 	try {
 		const [result] = await pool.query(`
-  SELECT
-    id,
-    title,
-    amount,
-    category,
-    DATE_FORMAT(expense_date, '%Y-%m-%d') AS expense_date,
-    created_at
-  FROM expenses
-  ORDER BY expense_date DESC
-`);
+		SELECT
+			id,
+			title,
+			amount,
+			category,
+			DATE_FORMAT(expense_date, '%Y-%m-%d') AS expense_date,
+			created_at
+		FROM expenses
+		ORDER BY expense_date DESC
+	`);
 
 		res.status(200).json(result);
 	} catch (error) {
@@ -31,16 +31,16 @@ const getExpenseById = async (req, res) => {
 		const {id} = req.params;
 		const [result] = await pool.query(
 			`
-  SELECT
-    id,
-    title,
-    amount,
-    category,
-    DATE_FORMAT(expense_date, '%Y-%m-%d') AS expense_date,
-    created_at
-  FROM expenses
-  WHERE id = ?
-`,
+			SELECT
+				id,
+				title,
+				amount,
+				category,
+				DATE_FORMAT(expense_date, '%Y-%m-%d') AS expense_date,
+				created_at
+			FROM expenses
+			WHERE id = ?
+		`,
 			id,
 		);
 
