@@ -1,17 +1,24 @@
 import type {ExpenseCardProps} from '../types/expense';
 import ExpenseItem from './ExpenseItem';
 import {deleteExpense} from '../services/expenseService';
+import '../styles/ExpenseCard.scss';
 
-const ExpenseCard = ({expense, onExpenseDeleted}: ExpenseCardProps) => {
+const ExpenseCard = ({expense, onExpenseDeleted, onNotification}: ExpenseCardProps) => {
 	const toDeleteExpense = async (expenseId: number) => {
-		await deleteExpense(expenseId);
+		try {
+			await deleteExpense(expenseId);
+			await onExpenseDeleted();
 
-		await onExpenseDeleted();
+			onNotification(true, 'Expense deleted successfully!');
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		} catch (error) {
+			onNotification(false, 'Failed to delete expense!');
+		}
 	};
 
 	return (
-		<div style={{border: '2px solid #000', padding: '20px', position: 'relative'}}>
-			<button type='button' style={{position: 'absolute', top: '5px', right: '5px', fontSize: '20px', color: '#000'}} onClick={() => toDeleteExpense(expense.id)}>
+		<div className='expense-card'>
+			<button className='expense-card__delete' type='button' onClick={() => toDeleteExpense(expense.id)}>
 				x
 			</button>
 			<ExpenseItem expense={expense} />

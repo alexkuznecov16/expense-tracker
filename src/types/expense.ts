@@ -10,11 +10,13 @@ export type Expense = {
 export type ExpenseListProps = {
 	expenses: Expense[];
 	onExpenseDeleted: () => Promise<void>;
+	onNotification: (success: boolean, message: string) => void;
 };
 
 export type ExpenseCardProps = {
 	expense: Expense;
 	onExpenseDeleted: () => Promise<void>;
+	onNotification: (success: boolean, message: string) => void;
 };
 
 export type ExpenseItemProps = {
@@ -23,4 +25,5 @@ export type ExpenseItemProps = {
 
 export type ExpenseFormProps = {
 	onExpenseCreated: () => Promise<void>;
+	onNotification: (success: boolean, message: string) => void;
 };

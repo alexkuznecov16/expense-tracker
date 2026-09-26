@@ -1,0 +1,25 @@
+@use './variables' as *;
+
+.expense-list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.expense-list__empty {
+	padding: 60px 24px;
+
+	background: $color-surface;
+	border: 1px dashed $color-border;
+	border-radius: $radius-lg;
+
+	color: $color-text-muted;
+
+	text-align: center;
+}
+
+@media (max-width: 650px) {
+	.expense-list {
+		grid-template-columns: 1fr;
+	}
+}
