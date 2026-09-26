@@ -9,7 +9,7 @@ import {useState} from 'react';
 type NotificationState = {success: boolean; message: string};
 
 const ExpensesPage = () => {
-	const {expenses, loadExpenses} = useExpenses();
+	const {expenses, loading, error, loadExpenses} = useExpenses();
 
 	const [notification, setNotification] = useState<NotificationState | null>(null);
 
@@ -23,15 +23,10 @@ const ExpensesPage = () => {
 			<div className='expenses-page__container'>
 				<Header />
 				<div className='expenses-page__content'>
-					{' '}
 					<section className='expenses-page__form'>
-						{' '}
-						<ExpenseForm onExpenseCreated={loadExpenses} onNotification={showNotification} />{' '}
-					</section>{' '}
-					<section className='expenses-page__list'>
-						{' '}
-						<ExpenseList expenses={expenses} onExpenseDeleted={loadExpenses} onNotification={showNotification} />{' '}
-					</section>{' '}
+						<ExpenseForm onExpenseCreated={loadExpenses} onNotification={showNotification} />
+					</section>
+					<section className='expenses-page__list'>{loading ? <p>Loading expenses...</p> : error ? <p>{error}</p> : <ExpenseList expenses={expenses} onExpenseDeleted={loadExpenses} onNotification={showNotification} />}</section>
 				</div>
 			</div>
 		</main>

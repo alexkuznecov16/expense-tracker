@@ -42,19 +42,15 @@ const ExpenseForm = ({onExpenseCreated, onNotification}: ExpenseFormProps) => {
 			{/* <input className='expense-form__input' type='number' name='amount' id='amount' placeholder='Enter amount' min={1} onChange={e => setInput({...input, amount: Number(e.target.value)})} value={input.amount} /> */}
 
 			<div className='expense-form__amount'>
-				{' '}
-				<input className='expense-form__input' type='number' name='amount' id='amount' placeholder='Enter amount' min={1} onChange={e => setInput({...input, amount: Number(e.target.value)})} value={Number.isNaN(input.amount) ? '' : input.amount} />{' '}
+				<input className='expense-form__input' type='number' name='amount' id='amount' placeholder='Enter amount' min={1} onChange={e => setInput({...input, amount: Number(e.target.value)})} value={Number.isNaN(input.amount) ? '' : input.amount} />
 				<div className='expense-form__amount-controls'>
-					{' '}
 					<button type='button' className='expense-form__amount-button' onClick={() => setInput({...input, amount: Number.isNaN(input.amount) ? 1 : input.amount + 1})}>
-						{' '}
-						▲{' '}
-					</button>{' '}
+						▲
+					</button>
 					<button type='button' className='expense-form__amount-button' onClick={() => setInput({...input, amount: Number.isNaN(input.amount) ? 1 : Math.max(1, input.amount - 1)})}>
-						{' '}
-						▼{' '}
-					</button>{' '}
-				</div>{' '}
+						▼
+					</button>
+				</div>
 			</div>
 
 			<CategoryPicker
