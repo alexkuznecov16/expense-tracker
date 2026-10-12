@@ -2,26 +2,33 @@
 
 .expense-card {
 	position: relative;
+	padding: 24px;
 
-	padding: 22px;
+	// Космический эффект полупрозрачного стекла
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
 
-	background: $color-surface;
-	border: 1px solid $color-border;
+	// Изящная тонкая граница с градиентом (или светлым оттенком)
+	border: 1px solid rgba(255, 255, 255, 0.08);
 	border-radius: $radius-md;
 
 	transition:
-		transform $transition,
-		border-color $transition,
-		background $transition,
-		box-shadow $transition;
+		transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+		border-color 0.3s ease,
+		background 0.3s ease,
+		box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
 	&:hover {
-		transform: translateY(-2px);
+		transform: translateY(-4px) scale(1.01);
 
-		background: $color-surface-hover;
-		border-color: $color-border-hover;
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
 
-		box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+		// Подсветка границ и мягкое глубокое свечение (неоновый вайб)
+		border-color: rgba(255, 255, 255, 0.2);
+		box-shadow:
+			0 20px 40px -15px rgba(0, 0, 0, 0.5),
+			0 0 20px rgba(99, 102, 241, 0.15); // Лёгкое фиолетово-синее свечение
 	}
 }
 
@@ -37,19 +44,28 @@
 	width: 32px;
 	height: 32px;
 
-	background: transparent;
+	background: rgba(255, 255, 255, 0.03);
 	color: $color-text-muted;
-
+	border: 1px solid rgba(255, 255, 255, 0.05);
 	border-radius: $radius-sm;
 
-	font-size: 1.1rem;
+	font-size: 1rem;
 
+	// Плавный переход с пружинным эффектом
 	transition:
-		background $transition,
-		color $transition;
+		background 0.2s ease,
+		color 0.2s ease,
+		border-color 0.2s ease,
+		transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
 	&:hover {
-		background: rgba(239, 68, 68, 0.12);
+		background: rgba(239, 68, 68, 0.15);
+		border-color: rgba(239, 68, 68, 0.3);
 		color: $color-danger;
+		transform: scale(1.1); // Слегка увеличивается при наведении
+	}
+
+	&:active {
+		transform: scale(0.95);
 	}
 }

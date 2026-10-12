@@ -3,12 +3,11 @@ import ExpenseItem from './ExpenseItem';
 import {deleteExpense} from '../services/expenseService';
 import '../styles/ExpenseCard.scss';
 
-const ExpenseCard = ({expense, onExpenseDeleted, onNotification}: ExpenseCardProps) => {
+const ExpenseCard = ({expense, onExpenseDeleted, onNotification, onEdit}: ExpenseCardProps) => {
 	const toDeleteExpense = async (expenseId: number) => {
 		try {
 			await deleteExpense(expenseId);
 			await onExpenseDeleted();
-
 			onNotification(true, 'Expense deleted successfully!');
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (error) {
@@ -17,8 +16,16 @@ const ExpenseCard = ({expense, onExpenseDeleted, onNotification}: ExpenseCardPro
 	};
 
 	return (
-		<div className='expense-card'>
-			<button className='expense-card__delete' type='button' onClick={() => toDeleteExpense(expense.id)}>
+		<div className='expense-card' onClick={() => onEdit(expense)}>
+			<button
+				className='expense-card__delete'
+				type='button'
+				onClick={e => {
+					e.stopPropagation();
+					toDeleteExpense(expense.id);
+				}}
+				aria-label={`Delete ${expense.title}`}
+			>
 				x
 			</button>
 			<ExpenseItem expense={expense} />

@@ -2,7 +2,7 @@ import type {ExpenseItemProps} from '../types/expense';
 import '../styles/ExpenseItem.scss';
 
 const ExpenseItem = ({expense}: ExpenseItemProps) => {
-	const formattedTitle = expense.title.length > 10 ? `${expense.title.slice(0, 10)}...` : expense.title;
+	const formattedTitle = expense.title.length > 25 ? `${expense.title.slice(0, 25)}...` : expense.title;
 
 	return (
 		<>

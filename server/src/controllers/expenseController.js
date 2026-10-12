@@ -86,7 +86,8 @@ const createExpense = async (req, res) => {
 const updateExpense = async (req, res) => {
 	try {
 		const {id} = req.params;
-		const {title, amount, category, expense_date} = req.body;
+		const {title, category, expense_date} = req.body;
+		const formattedAmount = Number(Number(req.body.amount).toFixed(2));
 
 		// Check if expense exists
 		const [existingExpense] = await pool.query('SELECT id FROM expenses WHERE id = ?', id);
@@ -100,7 +101,7 @@ const updateExpense = async (req, res) => {
 		const formattedDate = new Date(expense_date).toISOString().split('T')[0];
 
 		// Query
-		const [result] = await pool.query(`UPDATE expenses SET title = ?, amount = ?, category = ?, expense_date = ? WHERE id = ?`, [title, amount, category, formattedDate, id]);
+		const [result] = await pool.query(`UPDATE expenses SET title = ?, amount = ?, category = ?, expense_date = ? WHERE id = ?`, [title, formattedAmount, category, formattedDate, id]);
 
 		if (result.affectedRows === 0) {
 			return res.status(200).json({message: 'Nothing was changed!'});

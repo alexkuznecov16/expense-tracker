@@ -1,0 +1,313 @@
+@use './variables' as *;
+
+.edit-expense-modal {
+	position: fixed;
+	z-index: 900;
+
+	inset: 0;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	padding: 24px;
+
+	background: rgba(0, 0, 0, 0.65);
+
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+
+	animation: edit-modal-open 0.2s ease-out;
+}
+
+.edit-expense-modal__content {
+	width: 100%;
+	max-width: 480px;
+
+	padding: 28px;
+
+	background: $color-surface;
+
+	border: 1px solid $color-border;
+	border-radius: $radius-lg;
+
+	box-shadow:
+		0 30px 80px rgba(0, 0, 0, 0.55),
+		0 0 0 1px rgba(255, 255, 255, 0.02);
+
+	animation: edit-modal-content-open 0.2s ease-out;
+}
+
+.edit-expense-modal__header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+
+	gap: 20px;
+
+	margin-bottom: 28px;
+}
+
+.edit-expense-modal__title {
+	margin-bottom: 5px;
+
+	color: $color-text;
+
+	font-size: 1.35rem;
+	font-weight: 700;
+}
+
+.edit-expense-modal__subtitle {
+	color: $color-text-secondary;
+
+	font-size: 0.85rem;
+}
+
+.edit-expense-modal__close {
+	flex-shrink: 0;
+
+	width: 34px;
+	height: 34px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background: transparent;
+
+	color: $color-text-muted;
+
+	border-radius: $radius-sm;
+
+	font-size: 1.5rem;
+	line-height: 1;
+
+	transition:
+		background $transition,
+		color $transition;
+
+	&:hover {
+		background: $color-surface-hover;
+		color: $color-text;
+	}
+}
+
+.edit-expense-modal__form {
+	display: flex;
+	flex-direction: column;
+
+	gap: 16px;
+}
+
+.edit-expense-modal__field {
+	display: flex;
+	flex-direction: column;
+
+	gap: 7px;
+
+	label {
+		color: $color-text-secondary;
+
+		font-size: 0.85rem;
+		font-weight: 500;
+	}
+}
+
+.edit-expense-modal__input {
+	width: 100%;
+
+	min-height: 46px;
+
+	padding: 12px 14px;
+
+	background: #0c0c0f;
+
+	color: $color-text;
+
+	border: 1px solid $color-border;
+	border-radius: $radius-sm;
+
+	transition:
+		border-color $transition,
+		background $transition,
+		box-shadow $transition;
+
+	&:hover {
+		background: $color-surface-hover;
+		border-color: $color-border-hover;
+	}
+
+	&:focus {
+		border-color: $color-primary;
+
+		box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+	}
+}
+
+.edit-expense-modal__actions {
+	display: flex;
+
+	gap: 10px;
+
+	margin-top: 28px;
+}
+
+/*
+  AMOUNT
+*/
+
+.edit-expense-modal__amount {
+	position: relative;
+}
+
+.edit-expense-modal__amount .edit-expense-modal__input {
+	padding-right: 42px;
+
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+
+		margin: 0;
+	}
+
+	-webkit-appearance: textfield;
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.edit-expense-modal__amount-controls {
+	position: absolute;
+
+	top: 1px;
+	right: 1px;
+	bottom: 1px;
+
+	width: 32px;
+
+	display: flex;
+	flex-direction: column;
+
+	border-left: 1px solid $color-border;
+
+	overflow: hidden;
+
+	border-radius: 0 $radius-sm $radius-sm 0;
+}
+
+.edit-expense-modal__amount-button {
+	flex: 1;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	padding: 0;
+
+	background: transparent;
+	color: $color-text-muted;
+
+	font-size: 0.55rem;
+
+	transition:
+		background $transition,
+		color $transition;
+
+	&:hover {
+		background: $color-surface-hover;
+
+		color: $color-text;
+	}
+
+	&:active {
+		background: rgba(99, 102, 241, 0.15);
+
+		color: $color-primary-hover;
+	}
+
+	&:first-child {
+		border-bottom: 1px solid $color-border;
+	}
+}
+
+.edit-expense-modal__cancel,
+.edit-expense-modal__save {
+	flex: 1;
+
+	min-height: 44px;
+
+	padding: 10px 16px;
+
+	border-radius: $radius-sm;
+
+	font-weight: 600;
+
+	transition:
+		background $transition,
+		color $transition,
+		transform $transition;
+
+	&:active {
+		transform: translateY(1px);
+	}
+}
+
+.edit-expense-modal__cancel {
+	background: $color-surface-hover;
+
+	color: $color-text-secondary;
+
+	border: 1px solid $color-border;
+
+	&:hover {
+		color: $color-text;
+		border-color: $color-border-hover;
+	}
+}
+
+.edit-expense-modal__save {
+	background: $color-primary;
+
+	color: #fff;
+
+	&:hover {
+		background: $color-primary-hover;
+	}
+}
+
+@keyframes edit-modal-open {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes edit-modal-content-open {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(0.98);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (max-width: 500px) {
+	.edit-expense-modal {
+		padding: 16px;
+	}
+
+	.edit-expense-modal__content {
+		padding: 22px;
+	}
+
+	.edit-expense-modal__actions {
+		flex-direction: column-reverse;
+	}
+}

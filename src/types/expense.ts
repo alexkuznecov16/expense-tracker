@@ -7,16 +7,22 @@ export type Expense = {
 	created_at: string;
 };
 
+export interface ExpenseStatisticsProps {
+	expenses: Expense[];
+}
+
 export type ExpenseListProps = {
 	expenses: Expense[];
 	onExpenseDeleted: () => Promise<void>;
 	onNotification: (success: boolean, message: string) => void;
+	onEdit: (expense: Expense) => void;
 };
 
 export type ExpenseCardProps = {
 	expense: Expense;
 	onExpenseDeleted: () => Promise<void>;
 	onNotification: (success: boolean, message: string) => void;
+	onEdit: (expense: Expense) => void;
 };
 
 export type ExpenseItemProps = {

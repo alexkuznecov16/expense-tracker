@@ -1,28 +1,35 @@
 @use './variables' as *;
 
 .expense-item {
-	padding-right: 40px;
+	padding-right: 36px;
 }
 
 .expense-item__row {
 	display: flex;
-	align-items: baseline;
+	align-items: center;
 	justify-content: space-between;
-	gap: 20px;
+	gap: 16px;
 
-	padding: 10px 0;
+	padding: 12px 0;
 
-	border-bottom: 1px solid rgba(39, 39, 42, 0.7);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
 	&:last-child {
 		border-bottom: 0;
 		padding-bottom: 0;
 	}
+
+	&:first-child {
+		padding-top: 0;
+	}
 }
 
 .expense-item__label {
 	color: $color-text-muted;
-	font-size: 0.875rem;
+	font-size: 0.85rem;
+	font-weight: 500;
+	letter-spacing: 0.02em;
+	opacity: 0.8;
 }
 
 .expense-item__value {
@@ -30,10 +37,22 @@
 	font-size: 0.95rem;
 	font-weight: 600;
 	text-align: right;
+	letter-spacing: -0.01em;
 }
 
 .expense-item__amount {
 	color: $color-primary-hover;
-	font-size: 1.1rem;
+	font-size: 1.25rem;
 	font-weight: 700;
+	letter-spacing: -0.02em;
+
+	text-shadow: 0 0 12px rgba(99, 102, 241, 0.35);
+
+	transition:
+		text-shadow 0.3s ease,
+		transform 0.3s ease;
+
+	.expense-card:hover & {
+		text-shadow: 0 0 18px rgba(99, 102, 241, 0.6);
+	}
 }

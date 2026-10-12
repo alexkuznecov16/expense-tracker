@@ -1,0 +1,195 @@
+.expense-stats {
+	margin-top: 24px;
+	background: linear-gradient(135deg, rgba(18, 18, 26, 0.85) 0%, rgba(24, 24, 35, 0.95) 100%);
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+	border: 1px solid rgba(99, 102, 241, 0.25);
+	box-shadow:
+		0 16px 40px rgba(0, 0, 0, 0.5),
+		inset 0 1px 0 rgba(255, 255, 255, 0.08);
+	border-radius: 16px;
+	padding: 24px;
+	color: #ffffff;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	position: relative;
+	overflow: hidden;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.8), transparent);
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 16px;
+	}
+
+	&__title {
+		font-size: 1.4rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		margin: 0;
+	}
+
+	&__subtitle {
+		font-size: 1.05rem;
+		font-weight: 600;
+		margin-bottom: 16px;
+		color: #94a3b8;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		font-size: 0.8rem;
+	}
+
+	&__filter {
+		display: flex;
+		background-color: rgba(9, 9, 11, 0.6);
+		padding: 4px;
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		gap: 4px;
+
+		&-btn {
+			background: transparent;
+			border: none;
+			color: #94a3b8;
+			padding: 6px 16px;
+			font-size: 0.85rem;
+			font-weight: 500;
+			border-radius: 7px;
+			cursor: pointer;
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+			&:hover {
+				color: #ffffff;
+				background: rgba(255, 255, 255, 0.04);
+			}
+
+			&.active {
+				background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+				color: #ffffff;
+				font-weight: 600;
+				box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+			}
+		}
+	}
+
+	&__summary {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: 16px;
+	}
+
+	&__card {
+		background: linear-gradient(145deg, rgba(24, 24, 32, 0.7) 0%, rgba(15, 15, 20, 0.9) 100%);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		border-radius: 12px;
+		padding: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		position: relative;
+		transition:
+			transform 0.2s ease,
+			border-color 0.2s ease;
+
+		&:hover {
+			transform: translateY(-2px);
+			border-color: rgba(99, 102, 241, 0.4);
+		}
+
+		&-label {
+			font-size: 0.75rem;
+			font-weight: 600;
+			color: #94a3b8;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+		}
+
+		&-value {
+			font-size: 1.4rem;
+			font-weight: 800;
+			background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			letter-spacing: -0.02em;
+		}
+	}
+
+	&__empty {
+		color: #64748b;
+		font-size: 0.95rem;
+		margin: 0;
+		text-align: center;
+		padding: 20px;
+	}
+
+	&__bars {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	&__bar-item {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		background: rgba(255, 255, 255, 0.01);
+		padding: 12px;
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, 0.03);
+		transition: background 0.2s ease;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.025);
+		}
+	}
+
+	&__bar-info {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.9rem;
+	}
+
+	&__cat-name {
+		color: #f8fafc;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+
+	&__cat-amount {
+		color: #94a3b8;
+		font-weight: 500;
+	}
+
+	&__progress-bg {
+		width: 100%;
+		height: 10px;
+		background-color: rgba(9, 9, 11, 0.8);
+		border-radius: 5px;
+		overflow: hidden;
+		padding: 2px;
+		border: 1px solid rgba(255, 255, 255, 0.04);
+	}
+
+	&__progress-fill {
+		height: 100%;
+		background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+		border-radius: 3px;
+		box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+		transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+}
