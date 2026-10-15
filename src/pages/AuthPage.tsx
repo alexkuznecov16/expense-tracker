@@ -23,7 +23,7 @@ const AuthPage = () => {
 		const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
 
 		try {
-			const response = await fetch(`http://localhost:3000${endpoint}`, {
+			const response = await fetch(`https://expense-tracker-chwk.onrender.com${endpoint}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

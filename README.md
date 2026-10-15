@@ -1,225 +1,164 @@
-# Expense Tracker
+# 💰 Premium Full-Stack Expense Tracker
 
-A full-stack expense management app built with React + TypeScript on the front end and Express + MySQL on the back end. It lets users add, view, update, and delete expenses with category and date tracking.
+A production-ready, beautiful, and secure full-stack application designed to track and manage personal finances. This application features robust **Multi-User Isolation**, an interactive UI with high-end glassmorphism styling, automated input validation, and full security schemas including encrypted password hashing and token-based state management.
 
-## Overview
+---
 
-This project is structured as a two-part application:
+## 🚀 Live Demo
 
-- Frontend: Vite + React + TypeScript
-- Backend: Node.js + Express + MySQL
+- **Frontend (UI Hosted on Vercel):** `https://vercel.app`
+- **Backend (API Hosted on Render):** `https://expense-tracker-chwk.onrender.com`
+- **Database (Cloud Instance Hosted on Aiven):** MySQL 8.4 Server (DigitalOcean FRA Node)
 
-The client renders a dashboard-style expense list and form, while the API serves the expense data and validates user input before writing to MySQL.
+---
 
-## Features
+## 🔥 Key Upgrades & Features
 
-- Create new expenses with title, amount, category, and date
-- View a list of expenses sorted by newest date first
-- Delete individual expenses
-- Update existing entries via the API
-- Responsive UI with custom styling
-- MySQL-backed persistence
-- API validation for required fields and valid dates
+### 👥 1. Multi-User Isolation & Security
 
-## Tech Stack
+- **Data Segregation:** Added a complete `users` management model. Expenses are dynamically linked to users via a restricted relational schema (`user_id` mapping). Users can **only** query, create, update, or delete their own data.
+- **Password Encryption:** Zero plain-text storage. Passwords are securely salted and hashed using **`bcrypt`** before entering the cloud storage node.
+- **State Authorization:** Implemented stateless **JWT (JSON Web Tokens)** validation middleware. Secure passes are issued upon sign-in, valid for 24 hours, and automatically injected into all frontend API request headers.
 
-### Frontend
+### 🎨 2. High-End UI & UX Design
 
-- React 19
-- TypeScript
-- Vite
-- Sass
+- **Glassmorphism Theme:** Custom dark-mode design stack built with **Sass/SCSS**, blending deep indigo background cards with fine neon borders, responsive glowing form wrappers, and smooth linear gradients.
+- **Smart Adaptive Shell:** A unified, dynamic `AuthPage` supporting zero-refresh switching between login and registration layouts.
+- **Premium Event Indicators:** Integrated a dynamic notification system tracking operations (Success/Error states) with a fluid, self-draining micro-progress timeline bar.
+- **Resilient Connection Guards:** Replaced raw exceptions with an elegant, glowing **Error Overlay Panel** featuring micro-flicker animations and an instant query recovery mechanism ("Try Again" action).
+- **Global Header Control:** Constructed a sticky navigation header utilizing the React Router engine to watch and adapt routing link behaviors based on live user authentication properties (toggling Sign In / Log Out states).
 
-### Backend
+---
 
-- Node.js
-- Express 5
-- MySQL2
-- CORS
-- dotenv
+## 🛠️ Tech Stack
 
-## Project Structure
+| Layer        | Technologies                                                              |
+| :----------- | :------------------------------------------------------------------------ |
+| **Frontend** | React 19, TypeScript, Vite, Sass (SCSS), React Router Dom                 |
+| **Backend**  | Node.js, Express, JWT, Bcrypt, CORS, Dotenv                               |
+| **Database** | MySQL 8.4 (Cloud Hosted, Enforced SSL/TLS Node)                           |
+| **DevOps**   | Vercel (Client Deployment), Render (API Compute), Aiven (Database Engine) |
+
+---
+
+## 📂 Project Structure
 
 ```text
 expense-tracker/
-├── src/                       # React frontend
-│   ├── components/            # UI components
-│   ├── hooks/                # Data fetching hooks
-│   ├── pages/                # Pages
-│   ├── services/             # Fetch wrappers for the API
-│   ├── styles/               # SCSS styles
-│   ├── types/                # Shared TypeScript types
-│   ├── utils/                # Utility helpers
-│   ├── App.tsx               # App entry
-│   └── main.tsx              # Frontend bootstrap
-├── server/                    # Express API
+├── src/                       # React Frontend Application
+│   ├── components/            # Shared UI Views (Forms, Modals, Lists)
+│   ├── hooks/                 # Custom Hooks (useExpenses engine)
+│   ├── pages/                 # Full Page layouts (ExpensesPage, AuthPage)
+│   ├── services/              # Secure API Fetch Wrappers (expenseService)
+│   ├── styles/                # Modular SCSS style sheets
+│   ├── types/                 # Consolidated TypeScript Typings
+│   ├── App.tsx                # App shell & Route Guard configurations
+│   └── main.tsx               # Frontend client bootstrap
+├── server/                    # Node.js Express Backend API
 │   ├── src/
-│   │   ├── config/           # MySQL pool config
-│   │   ├── controllers/      # Expense CRUD handlers
-│   │   ├── middleware/       # Request validation
-│   │   ├── routes/           # API routes
-│   │   └── server.js         # API server entry
-│   ├── .env                  # Local environment config
-│   └── package.json
-├── package.json               # Frontend scripts and dependencies
-├── vite.config.ts
-├── tsconfig*.json
-├── index.html
-├── eslint.config.js
-└── README.md
+│   │   ├── config/            # Relational Cloud Pool settings (database.js)
+│   │   ├── controllers/       # Business handlers (expenseController, authController)
+│   │   ├── middleware/        # Validations & Route Protection (auth.js)
+│   │   ├── routes/            # Isolated router definitions
+│   │   └── server.js          # Main Application Entry point
+│   └── package.json           # Backend dependency configuration
+├── package.json               # Root Vite scripts and clients
+├── vite.config.ts             # Vite bundler parameters
+└── README.md                  # System Documentation
 ```
 
-## Prerequisites
+---
 
-Before running the app, make sure you have:
+## 🗄️ Relational Database Schema
 
-- Node.js 18+ and npm
-- MySQL installed and running locally
-- A database named `expense_tracker` (or change the value in your `.env`)
-
-## Database Setup
-
-Create a MySQL database and table:
+The core MySQL engine is structured using the schema below, establishing relational referential integrity via strict foreign keys and cascading delete constraints:
 
 ```sql
-CREATE DATABASE expense_tracker;
-USE expense_tracker;
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE expenses (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  amount DECIMAL(10,2) NOT NULL,
-  category VARCHAR(100) NOT NULL,
-  expense_date DATE NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    expense_date DATE NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_expense_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 ```
 
-## Environment Configuration
+---
 
-Create or update the backend environment file at `server/.env`:
+## 🌐 API Reference
+
+All requests must supply JSON payloads. Protected endpoints demand a valid token prefix: `Authorization: Bearer <JWT_TOKEN>`.
+
+### Authentication Routes
+
+- `POST /api/auth/register` — Registers a unique identity profile.
+- `POST /api/auth/login` — Verifies passwords against salted hashes and dispenses auth tokens.
+
+### Protected Expense Routes
+
+- `GET /api/expenses` — Returns sorted expenses assigned **exclusively** to the requesting individual.
+- `GET /api/expenses/:id` — Retretries an explicit personal record line.
+- `POST /api/expenses` — Persists a new item linked to the active token owner.
+- `PUT /api/expenses/:id` — Safely updates a distinct owned record.
+- `DELETE /api/expenses/:id` — Irreversibly purges a target expense line.
+
+---
+
+## 🔧 Environment Variables
+
+Configure your local or container production keys inside a `.env` environment layout:
+
+### Server Setup (`server/.env`)
 
 ```env
 PORT=3000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_mysql_password
-DB_NAME=expense_tracker
+DB_HOST=://aivencloud.com
+DB_PORT=27382
+DB_USER=avnadmin
+DB_NAME=defaultdb
+DB_PASSWORD=your_secure_cloud_password
+JWT_SECRET=your_long_custom_alphanumeric_hmac_hash_key
 ```
 
-> The project already includes a local `.env` file in `server/`, but you should update the credentials to match your own MySQL setup.
+---
 
-## Installation
+## 💻 Local Quickstart
 
-Install both frontend and backend dependencies:
+### 1. Installation
+
+Install project requirements for both segments concurrently:
 
 ```bash
 npm install
-cd server
-npm install
+cd server && npm install
 cd ..
 ```
 
-## Running the Project
+### 2. Execution
 
-Start the backend API in one terminal:
+Fire up the backend engine process loop:
 
 ```bash
 cd server
 npm run dev
 ```
 
-Start the frontend in another terminal:
+Launch the hot-reloading client bundle environment in an alternate terminal pane:
 
 ```bash
+# Executed from root directory
 npm run dev
 ```
 
-Then open:
-
-- Frontend: http://localhost:5173
-- API: http://localhost:3000
-
-## API Endpoints
-
-### GET /api/expenses
-
-Returns all expenses ordered by date descending.
-
-### GET /api/expenses/:id
-
-Returns a single expense by ID.
-
-### POST /api/expenses
-
-Creates a new expense.
-
-Request body:
-
-```json
-{
-	"title": "Groceries",
-	"amount": 54.25,
-	"category": "Food",
-	"expense_date": "2026-09-27"
-}
-```
-
-### PUT /api/expenses/:id
-
-Updates an existing expense.
-
-### DELETE /api/expenses/:id
-
-Deletes an expense.
-
-### GET /api/test-db
-
-Checks whether the backend can connect to MySQL successfully.
-
-## Frontend Behavior
-
-The app is a single-page React interface powered by `useExpenses` and the `expenseService` fetch layer. It fetches records from the backend and updates the list after create and delete actions.
-
-## Scripts
-
-### Root project
-
-```bash
-npm run dev       # Start Vite frontend
-npm run build     # Build production bundle
-npm run lint      # Run ESLint
-npm run preview   # Preview production build
-```
-
-### Server project
-
-```bash
-cd server
-npm run dev       # Start Express API with nodemon
-npm run start     # Start API in production mode
-```
-
-## Production Build
-
-To build the frontend for deployment:
-
-```bash
-npm run build
-```
-
-This compiles the React app into the `dist/` directory.
-
-## Notes
-
-- The API validates title, amount, category, and date before creating or updating entries.
-- Expense dates are stored as MySQL `DATE` values.
-- The app currently expects the API to be running at `http://localhost:3000`.
-
-## License
-
-This project is for local development and learning purposes.
-
-## Contributing
-
-Feel free to fork this repo, improve the UI, add filtering, analytics, or budget summaries, and submit your changes.
+- **Local Interface Client:** `http://localhost:5173`
+- **Local Active Server Framework:** `http://localhost:3000`

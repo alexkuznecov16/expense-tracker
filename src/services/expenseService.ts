@@ -1,6 +1,6 @@
 import type {Expense} from '../types/expense';
 
-const BASE_URL = 'http://localhost:3000/api/expenses';
+const BASE_URL = 'https://expense-tracker-chwk.onrender.com/api/expenses';
 
 const getHeaders = () => {
 	const token = localStorage.getItem('token');
