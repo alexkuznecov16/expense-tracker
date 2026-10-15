@@ -1,11 +1,23 @@
 import type {Expense} from '../types/expense';
 
+const BASE_URL = 'http://localhost:3000/api/expenses';
+
+const getHeaders = () => {
+	const token = localStorage.getItem('token');
+	return {
+		'Content-Type': 'application/json',
+		// Inject the token using the Bearer schema if it exists
+		...(token ? {Authorization: `Bearer ${token}`} : {}),
+	};
+};
+
 // GET
 export const getExpenses = async (): Promise<Expense[]> => {
-	const url = 'http://localhost:8200/api/expenses';
-
 	try {
-		const response = await fetch(url);
+		const response = await fetch(BASE_URL, {
+			method: 'GET',
+			headers: getHeaders(),
+		});
 		if (!response.ok) {
 			throw new Error(`Response status: ${response.status}`);
 		}
@@ -20,10 +32,12 @@ export const getExpenses = async (): Promise<Expense[]> => {
 
 // GET
 export const getExpenseById = async (id: number): Promise<Expense> => {
-	const url = `http://localhost:8200/api/expenses/${id}`;
-
 	try {
-		const response = await fetch(url);
+		const response = await fetch(`${BASE_URL}/${id}`, {
+			method: 'GET',
+			headers: getHeaders(),
+		});
+
 		if (!response.ok) {
 			throw new Error(`Response status: ${response.status}`);
 		}
@@ -38,14 +52,10 @@ export const getExpenseById = async (id: number): Promise<Expense> => {
 
 // POST
 export const createExpense = async (title: string, amount: number, category: string, expense_date: string): Promise<{message: string}> => {
-	const url = `http://localhost:8200/api/expenses`;
-
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(BASE_URL, {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			headers: getHeaders(),
 			body: JSON.stringify({
 				title,
 				amount,
@@ -53,6 +63,7 @@ export const createExpense = async (title: string, amount: number, category: str
 				expense_date,
 			}),
 		});
+
 		if (!response.ok) {
 			throw new Error(`Response status: ${response.status}`);
 		}
@@ -67,14 +78,10 @@ export const createExpense = async (title: string, amount: number, category: str
 
 // PUT
 export const changeExpense = async (id: number, title: string, amount: number, category: string, expense_date: string): Promise<{message: string}> => {
-	const url = `http://localhost:8200/api/expenses/${id}`;
-
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(`${BASE_URL}/${id}`, {
 			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			headers: getHeaders(),
 			body: JSON.stringify({
 				title,
 				amount,
@@ -82,6 +89,7 @@ export const changeExpense = async (id: number, title: string, amount: number, c
 				expense_date,
 			}),
 		});
+
 		if (!response.ok) {
 			throw new Error(`Response status: ${response.status}`);
 		}
@@ -96,12 +104,12 @@ export const changeExpense = async (id: number, title: string, amount: number, c
 
 // DELETE
 export const deleteExpense = async (id: number): Promise<{message: string}> => {
-	const url = `http://localhost:8200/api/expenses/${id}`;
-
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(`${BASE_URL}/${id}`, {
 			method: 'DELETE',
+			headers: getHeaders(),
 		});
+
 		if (!response.ok) {
 			throw new Error(`Response status: ${response.status}`);
 		}

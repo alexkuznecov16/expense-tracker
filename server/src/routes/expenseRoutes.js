@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const validation = require('../middleware/validation');
 const {getExpenses, getExpenseById, createExpense, updateExpense, deleteExpense} = require('../controllers/expenseController');
+const authenticateToken = require('../middleware/auth');
+
+router.use(authenticateToken);
 
 // GET
 router.get('/', getExpenses);

@@ -100,7 +100,7 @@ CREATE TABLE expenses (
 Create or update the backend environment file at `server/.env`:
 
 ```env
-PORT=8200
+PORT=3000
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=your_mysql_password
@@ -138,7 +138,7 @@ npm run dev
 Then open:
 
 - Frontend: http://localhost:5173
-- API: http://localhost:8200
+- API: http://localhost:3000
 
 ## API Endpoints
 
@@ -214,7 +214,7 @@ This compiles the React app into the `dist/` directory.
 
 - The API validates title, amount, category, and date before creating or updating entries.
 - Expense dates are stored as MySQL `DATE` values.
-- The app currently expects the API to be running at `http://localhost:8200`.
+- The app currently expects the API to be running at `http://localhost:3000`.
 
 ## License
 

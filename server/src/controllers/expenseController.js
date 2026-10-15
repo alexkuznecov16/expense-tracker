@@ -3,7 +3,10 @@ const pool = require('../config/database');
 // GET
 const getExpenses = async (req, res) => {
 	try {
-		const [result] = await pool.query(`
+		const userId = req.user.id;
+
+		const [result] = await pool.query(
+			`
 		SELECT
 			id,
 			title,
@@ -12,8 +15,11 @@ const getExpenses = async (req, res) => {
 			DATE_FORMAT(expense_date, '%Y-%m-%d') AS expense_date,
 			created_at
 		FROM expenses
+		WHERE user_id = ? 
 		ORDER BY expense_date DESC
-	`);
+	`,
+			[userId],
+		);
 
 		res.status(200).json(result);
 	} catch (error) {
@@ -29,6 +35,7 @@ const getExpenses = async (req, res) => {
 const getExpenseById = async (req, res) => {
 	try {
 		const {id} = req.params;
+		const userId = req.user.id;
 		const [result] = await pool.query(
 			`
 			SELECT
@@ -39,9 +46,9 @@ const getExpenseById = async (req, res) => {
 				DATE_FORMAT(expense_date, '%Y-%m-%d') AS expense_date,
 				created_at
 			FROM expenses
-			WHERE id = ?
+			WHERE id = ? AND user_id = ?
 		`,
-			id,
+			[id, userId],
 		);
 
 		if (result.length < 1) {
@@ -64,11 +71,12 @@ const getExpenseById = async (req, res) => {
 const createExpense = async (req, res) => {
 	try {
 		const {title, amount, category, expense_date} = req.body;
+		const userId = req.user.id;
 
 		const formattedDate = new Date(expense_date).toISOString().split('T')[0];
 
 		// Query
-		await pool.query(`INSERT INTO expenses (title, amount, category, expense_date) values (?, ?, ?, ?)`, [title, amount, category, formattedDate]);
+		await pool.query(`INSERT INTO expenses (title, amount, category, expense_date, user_id) values (?, ?, ?, ?, ?)`, [title, amount, category, formattedDate, userId]);
 
 		res.status(201).json({
 			message: 'Created successfully!',
@@ -88,9 +96,10 @@ const updateExpense = async (req, res) => {
 		const {id} = req.params;
 		const {title, category, expense_date} = req.body;
 		const formattedAmount = Number(Number(req.body.amount).toFixed(2));
+		const userId = req.user.id;
 
 		// Check if expense exists
-		const [existingExpense] = await pool.query('SELECT id FROM expenses WHERE id = ?', id);
+		const [existingExpense] = await pool.query('SELECT id FROM expenses WHERE id = ? AND user_id = ?', [id, userId]);
 
 		if (existingExpense.length === 0) {
 			return res.status(404).json({
@@ -101,7 +110,7 @@ const updateExpense = async (req, res) => {
 		const formattedDate = new Date(expense_date).toISOString().split('T')[0];
 
 		// Query
-		const [result] = await pool.query(`UPDATE expenses SET title = ?, amount = ?, category = ?, expense_date = ? WHERE id = ?`, [title, formattedAmount, category, formattedDate, id]);
+		const [result] = await pool.query(`UPDATE expenses SET title = ?, amount = ?, category = ?, expense_date = ? WHERE id = ? AND user_id = ?`, [title, formattedAmount, category, formattedDate, id, userId]);
 
 		if (result.affectedRows === 0) {
 			return res.status(200).json({message: 'Nothing was changed!'});
@@ -122,10 +131,12 @@ const updateExpense = async (req, res) => {
 // DELETE
 const deleteExpense = async (req, res) => {
 	try {
+		const userId = req.user.id;
+
 		const {id} = req.params;
 
 		// Check if expense exists
-		const [existingExpense] = await pool.query('SELECT id FROM expenses WHERE id = ?', id);
+		const [existingExpense] = await pool.query('SELECT id FROM expenses WHERE id = ? AND user_id = ?', [id, userId]);
 
 		if (existingExpense.length === 0) {
 			return res.status(404).json({
@@ -134,7 +145,7 @@ const deleteExpense = async (req, res) => {
 		}
 
 		// Query
-		await pool.query('DELETE from expenses WHERE id = ?', id);
+		await pool.query('DELETE from expenses WHERE id = ? AND user_id = ?', [id, userId]);
 
 		res.status(200).json({
 			message: 'Deleted successfully!',
